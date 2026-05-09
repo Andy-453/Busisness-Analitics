@@ -1,2 +1,419 @@
-# Andy.github.io
-Bussisnes Analytics
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Analytics | Retención de Clientes</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1E3A8A; /* Azul Marino Corporativo */
+            --secondary: #2563EB; /* Azul vibrante */
+            --accent: #E11D48; /* Rojo Carmín para las alertas */
+            --success: #059669; /* Verde para métricas positivas */
+            --bg-main: #F8FAFC; /* Fondo principal gris perla */
+            --bg-white: #FFFFFF;
+            --text-dark: #0F172A;
+            --text-gray: #475569;
+            --border: #E2E8F0;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-gray);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-dark);
+            font-weight: 800;
+        }
+
+        /* --- NAVEGACIÓN LIMPIA --- */
+        nav {
+            background-color: var(--bg-white);
+            box-shadow: var(--shadow-sm);
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 1000;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--secondary); }
+
+        /* --- CONTENEDOR GENERAL --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 120px 20px 60px;
+        }
+
+        /* --- CABECERA --- */
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            padding: 40px 20px;
+            background: var(--bg-white);
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .badge {
+            background-color: #DBEAFE;
+            color: var(--secondary);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            line-height: 1.2;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .header-p {
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- SECCIONES BLANCAS --- */
+        section {
+            background: var(--bg-white);
+            border-radius: 24px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+        }
+
+        h2 { font-size: 2rem; margin-bottom: 20px; position: relative; padding-bottom: 15px; }
+        h2::after {
+            content: ''; position: absolute; left: 0; bottom: 0;
+            width: 60px; height: 4px; background-color: var(--secondary); border-radius: 2px;
+        }
+
+        p { margin-bottom: 20px; font-size: 1.05rem; }
+
+        /* --- REEMPLAZO DE TABLAS POR GRIDS (Para que no se corte) --- */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .data-card {
+            background: var(--bg-main);
+            padding: 25px;
+            border-radius: 16px;
+            border-left: 5px solid var(--secondary);
+        }
+
+        .data-card h4 { color: var(--primary); font-size: 1.1rem; margin-bottom: 10px; }
+        .data-card p { margin-bottom: 0; font-size: 0.95rem; line-height: 1.5; }
+        .data-card strong { display: block; margin-top: 10px; color: var(--text-dark); font-size: 0.85rem; text-transform: uppercase; }
+
+        /* --- PROCESO DE LIMPIEZA (Lista visual en vez de tabla) --- */
+        .process-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .process-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            background: var(--bg-main);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .process-icon {
+            background: var(--primary); color: white;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; font-weight: bold; flex-shrink: 0;
+        }
+
+        .process-content h4 { margin-bottom: 5px; font-size: 1.1rem; }
+        .process-content p { margin-bottom: 0; font-size: 0.95rem; }
+
+        /* --- MÉTTRICAS --- */
+        .metrics-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .metric-box {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .m-number { display: block; font-family: 'Montserrat', sans-serif; font-size: 3rem; font-weight: 800; color: var(--text-dark); line-height: 1; margin-bottom: 10px; }
+        .m-label { font-size: 0.85rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; }
+        
+        .alert-text { color: var(--accent); }
+        .success-text { color: var(--success); }
+
+        /* --- ESTRATEGIA FINAL --- */
+        .strategy-section {
+            background: var(--primary);
+            color: white;
+            padding: 60px 50px;
+            border-radius: 24px;
+            margin-top: 40px;
+        }
+
+        .strategy-section h2 { color: white; }
+        .strategy-section h2::after { background-color: white; }
+        .strategy-section h4 { color: #93C5FD; font-size: 1.25rem; margin-top: 30px; margin-bottom: 10px; }
+        .strategy-section p { color: #E2E8F0; }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 60px 20px 20px;
+            color: var(--text-gray);
+        }
+
+        .uni-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        /* --- RESPONSIVO --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            section { padding: 30px 20px; }
+            .process-item { flex-direction: column; gap: 10px; }
+            h1 { font-size: 2rem; }
+            .strategy-section { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Reporte Analítico</div>
+        <div class="nav-links">
+            <a href="#dataset">Contexto</a>
+            <a href="#limpieza">Saneamiento</a>
+            <a href="#eda">Métricas</a>
+            <a href="#hallazgos">Hallazgos</a>
+            <a href="#estrategia">Estrategia</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <header>
+            <span class="badge">Business Analytics</span>
+            <h1>Arquitectura de la Retención de Clientes.</h1>
+            <p class="header-p">Un diagnóstico descriptivo estructurado para transformar la información en estrategias efectivas, combatiendo la tasa de abandono en el sector de telecomunicaciones.</p>
+        </header>
+
+        <section id="dataset">
+            <h2>01. Análisis del Dataset</h2>
+            <p>La investigación se sustenta en el conjunto de datos <strong>Telco Customer Churn</strong>. Esta base, compuesta por 7,043 registros, documenta la actividad histórica de los usuarios, brindando una visión integral para aislar matemáticamente los motivos del abandono.</p>
+            
+            <div class="data-grid">
+                <div class="data-card">
+                    <h4>Dimensión Demográfica</h4>
+                    <p>Evalúa variables como género, edad avanzada, pareja y dependientes.</p>
+                    <strong>Objetivo: Identificar perfil familiar</strong>
+                </div>
+                <div class="data-card">
+                    <h4>Portafolio Digital</h4>
+                    <p>Agrupa servicios contratados: Internet, Seguridad, Soporte Técnico y Streaming.</p>
+                    <strong>Objetivo: Medir dependencia tecnológica</strong>
+                </div>
+                <div class="data-card">
+                    <h4>Relación Comercial</h4>
+                    <p>Mide el tipo de contrato, cargos mensuales, totales y antigüedad del cliente.</p>
+                    <strong>Objetivo: Evaluar lealtad financiera</strong>
+                </div>
+                <div class="data-card" style="border-left-color: var(--accent);">
+                    <h4 style="color: var(--accent);">Variable Objetivo</h4>
+                    <p>El indicador "Churn" (Sí/No) que determina si el usuario canceló el servicio.</p>
+                    <strong>Objetivo: Target de predicción</strong>
+                </div>
+            </div>
+        </section>
+
+        <section id="limpieza">
+            <h2>02. Saneamiento de Datos</h2>
+            <p>Para garantizar conclusiones precisas y evitar fallos en el procesamiento estadístico, aplicamos un protocolo de corrección sistemática de la información:</p>
+            
+            <div class="process-list">
+                <div class="process-item">
+                    <div class="process-icon">1</div>
+                    <div class="process-content">
+                        <h4>Corrección de Formato Numérico</h4>
+                        <p>Los Cargos Totales se encontraban almacenados erróneamente como texto. Se forzó su conversión a valores numéricos para permitir cálculos de promedios y dispersión.</p>
+                    </div>
+                </div>
+                <div class="process-item">
+                    <div class="process-icon">2</div>
+                    <div class="process-content">
+                        <h4>Imputación Lógica de Nulos</h4>
+                        <p>Los campos vacíos detectados correspondían a clientes nuevos (cero meses de antigüedad). Se imputaron con el valor "0" respetando la realidad de su facturación inicial nula.</p>
+                    </div>
+                </div>
+                <div class="process-item">
+                    <div class="process-icon">3</div>
+                    <div class="process-content">
+                        <h4>Estandarización Binaria</h4>
+                        <p>Las respuestas textuales variadas fueron codificadas a un sistema binario (1 y 0) para optimizar el análisis de correlaciones matemáticas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="eda">
+            <h2>03. Métricas Descriptivas (EDA)</h2>
+            <p>El análisis revela que la deserción no es un evento aislado, sino una respuesta directa a la estructura del servicio. Las métricas exponen un desbalance operativo importante.</p>
+            
+            <div class="metrics-container">
+                <div class="metric-box">
+                    <span class="m-number alert-text">26.5%</span>
+                    <span class="m-label">Abandono Global</span>
+                </div>
+                <div class="metric-box">
+                    <span class="m-number alert-text">42.0%</span>
+                    <span class="m-label">Riesgo Contrato Mensual</span>
+                </div>
+                <div class="metric-box">
+                    <span class="m-number success-text">3.0%</span>
+                    <span class="m-label">Fuga Contrato Bianual</span>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1.2rem; margin-top: 40px; margin-bottom: 15px; color: var(--primary);">Resumen de Visualizaciones</h3>
+            <div class="data-grid">
+                <div class="data-card" style="border-left: none; background: var(--bg-white); border: 1px solid var(--border);">
+                    <h4 style="color: var(--text-dark);">📊 Gráficos de Barras</h4>
+                    <p>Ilustraron la enorme brecha de riesgo de cancelación según la modalidad del contrato.</p>
+                </div>
+                <div class="data-card" style="border-left: none; background: var(--bg-white); border: 1px solid var(--border);">
+                    <h4 style="color: var(--text-dark);">📉 Histogramas</h4>
+                    <p>Confirmaron que la curva de deserción es crítica durante los primeros seis meses.</p>
+                </div>
+                <div class="data-card" style="border-left: none; background: var(--bg-white); border: 1px solid var(--border);">
+                    <h4 style="color: var(--text-dark);">📦 Boxplots</h4>
+                    <p>Evidenciaron que la mediana de pago mensual de los desertores es notablemente superior.</p>
+                </div>
+                <div class="data-card" style="border-left: none; background: var(--bg-white); border: 1px solid var(--border);">
+                    <h4 style="color: var(--text-dark);">🌡️ Mapas de Calor</h4>
+                    <p>Destacaron matemáticamente la ausencia de soporte técnico como el mayor detonante de fuga.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="hallazgos">
+            <h2>04. Descubrimientos Tácticos</h2>
+            <p>La combinación del análisis numérico y visual permitió aislar los tres patrones exactos que están mermando la rentabilidad operativa:</p>
+            
+            <div class="process-list">
+                <div class="process-item" style="border-left: 5px solid var(--secondary);">
+                    <div class="process-content">
+                        <h4>1. Vulnerabilidad Contractual</h4>
+                        <p>La flexibilidad del contrato mensual opera como una salida de emergencia rápida, elevando la tasa de cancelación a un nivel insostenible para el negocio.</p>
+                    </div>
+                </div>
+                <div class="process-item" style="border-left: 5px solid var(--secondary);">
+                    <div class="process-content">
+                        <h4>2. El Vacío en la Posventa</h4>
+                        <p>Los usuarios que carecen de asistencia técnica y seguridad web demuestran nula paciencia ante los fallos operativos, cancelando el servicio casi de inmediato.</p>
+                    </div>
+                </div>
+                <div class="process-item" style="border-left: 5px solid var(--secondary);">
+                    <div class="process-content">
+                        <h4>3. Sensibilidad Precio-Valor</h4>
+                        <p>Imponer facturas elevadas en las primeras etapas de vinculación, sin demostrar una propuesta de valor sólida, genera un impacto negativo que motiva el abandono.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="strategy-section" id="estrategia">
+            <h2>05. Diagnóstico y Hoja de Ruta</h2>
+            <p style="font-size: 1.15rem; margin-bottom: 30px;">El análisis descriptivo nos permite pasar de la simple observación a la acción estratégica informada.</p>
+            
+            <h4>¿Qué reflejan los datos?</h4>
+            <p>Existe una hemorragia de clientes en su etapa inicial. Con una pérdida general del 26.5%, los recursos financieros invertidos en la adquisición de clientes se están desperdiciando debido a una retención deficiente.</p>
+
+            <h4>¿Dónde radica el fallo operativo?</h4>
+            <p>El diseño del servicio no fomenta el "anclaje". La combinación de contratos sin compromiso de permanencia y la ausencia de servicios complementarios (como soporte dedicado), anulan la lealtad del usuario a largo plazo.</p>
+
+            <h4>¿Cuál es la oportunidad de mejora?</h4>
+            <p>El paso a seguir es la implementación de Analítica Predictiva. Empaquetar servicios de seguridad desde el primer día y configurar alertas automatizadas para intervenir comercialmente a los clientes en riesgo, antes de que tomen la decisión de marcharse.</p>
+        </div>
+
+        <footer>
+            <div class="uni-name">UNIVERSIDAD DE CUNDINAMARCA</div>
+            <p style="font-size: 0.9rem; margin-top: 10px;">Proyecto Formativo de Business Analytics</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
